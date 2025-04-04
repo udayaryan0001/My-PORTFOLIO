@@ -513,6 +513,34 @@
             }
         }
 
+        /* Mobile responsive text styles */
+        .name-heading {
+            font-size: clamp(2rem, 5vw, 3.75rem);
+            line-height: 1.2;
+            padding: 0 1rem;
+            word-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 640px) {
+            .name-heading {
+                font-size: 1.5rem;
+                padding: 0 0.5rem;
+                letter-spacing: 0.1em;
+            }
+            .typing-container {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            .typewriter {
+                font-size: 1.5rem;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+
         /* Typewriter effect styles */
         .typewriter {
             overflow: hidden;
@@ -521,14 +549,15 @@
             margin: 0 auto;
             letter-spacing: .15em;
             animation: 
-                typing 12s steps(40, end) infinite,
+                typing 8s steps(40, end) infinite,
                 blink-caret .75s step-end infinite;
+            display: inline-block;
+            width: 0;
         }
 
         @keyframes typing {
             0% { width: 0 }
-            20% { width: 100% }
-            80% { width: 100% }
+            20%, 80% { width: 100% }
             100% { width: 0 }
         }
 
@@ -540,6 +569,8 @@
         .typing-container {
             display: inline-block;
             max-width: fit-content;
+            text-align: center;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -617,9 +648,9 @@
                     </div>
                 </div>
                 <!-- Name and Title with silver text -->
-                <div class="text-center mb-8">
+                <div class="text-center mb-8 px-4">
                     <div class="typing-container">
-                        <h1 class="text-4xl md:text-6xl font-bold mb-4 glowing-text typewriter">Hi, I'm Uday Pandit</h1>
+                        <h1 class="name-heading glowing-text typewriter">Hi, I'm Uday Pandit</h1>
                     </div>
                     <p class="text-xl mb-8 text-white font-medium">Software Engineer | Entrepreneur | Student</p>
                 </div>
