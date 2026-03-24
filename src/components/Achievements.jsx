@@ -24,7 +24,6 @@ function AnimatedCounter({ value, inView }) {
     }, [inView, value]);
     return <>{count}</>;
 }
-
 export default function Achievements() {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: '-80px' });
@@ -92,3 +91,4 @@ export default function Achievements() {
         </section>
     );
 }
+

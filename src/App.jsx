@@ -11,6 +11,7 @@ import ThemeToggle from './components/ThemeToggle';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
+import FeaturedGallery from './components/FeaturedGallery';
 import Startups from './components/Startups';
 import Skills from './components/Skills';
 import Timeline from './components/Timeline';
@@ -60,6 +61,9 @@ function PortfolioContent({ ready }) {
                 <About />
                 <div className="h-px w-full opacity-20"
                   style={{ background: `linear-gradient(90deg, transparent, ${theme.accent}, transparent)` }} />
+                <FeaturedGallery />
+                <div className="h-px w-full opacity-20"
+                  style={{ background: `linear-gradient(90deg, transparent, ${theme.accentBlue}, transparent)` }} />
                 <Startups />
                 <div className="h-px w-full opacity-20"
                   style={{ background: `linear-gradient(90deg, transparent, ${theme.accentBlue}, transparent)` }} />

@@ -1,61 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
 import { motion, useInView } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Phone } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Phone, Download } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-
-function SpinningRing({ radius = 1.8, color = '#00f5c4', speed = 0.5, tilt = 0 }) {
-    const ref = useRef();
-    useFrame((state, delta) => {
-        ref.current.rotation.y += delta * speed;
-        ref.current.rotation.x = tilt + Math.sin(state.clock.elapsedTime * 0.4) * 0.08;
-    });
-    return (
-        <mesh ref={ref}>
-            <torusGeometry args={[radius, 0.025, 16, 100]} />
-            <meshStandardMaterial
-                color={color}
-                emissive={color}
-                emissiveIntensity={0.6}
-                transparent
-                opacity={0.6}
-            />
-        </mesh>
-    );
-}
-
-function FloatingCore({ color }) {
-    const ref = useRef();
-    useFrame((state) => {
-        ref.current.rotation.x = state.clock.elapsedTime * 0.3;
-        ref.current.rotation.y = state.clock.elapsedTime * 0.5;
-    });
-    return (
-        <mesh ref={ref}>
-            <icosahedronGeometry args={[0.55, 1]} />
-            <meshStandardMaterial
-                color={color}
-                wireframe
-                emissive={color}
-                emissiveIntensity={0.8}
-            />
-        </mesh>
-    );
-}
-
-function HeroScene({ theme }) {
-    return (
-        <>
-            <ambientLight intensity={0.4} />
-            <pointLight position={[5, 5, 5]} color={theme.accent} intensity={2} />
-            <pointLight position={[-5, -5, -5]} color={theme.accentBlue} intensity={1.5} />
-            <FloatingCore color={theme.accent} />
-            <SpinningRing radius={1.2} color={theme.accent} speed={0.6} tilt={0.3} />
-            <SpinningRing radius={1.7} color={theme.accentBlue} speed={-0.4} tilt={-0.5} />
-            <SpinningRing radius={2.1} color={theme.accentPurple || theme.accent} speed={0.3} tilt={0.8} />
-        </>
-    );
-}
+import profileImg from '../assets/mine2.jpeg';
 
 const TITLES = [
     'Founder & Director',
@@ -205,6 +152,26 @@ export default function Hero() {
                         >
                             Let's Connect
                         </a>
+                        <a
+                            href="/resume.pdf"
+                            download
+                            className="group flex items-center gap-2 px-8 py-4 rounded-full font-bold border transition-all duration-300"
+                            style={{
+                                borderColor: `${theme.accentBlue}40`,
+                                color: theme.accentBlue,
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = theme.accentBlue;
+                                e.currentTarget.style.background = `${theme.accentBlue}15`;
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = `${theme.accentBlue}40`;
+                                e.currentTarget.style.background = 'transparent';
+                            }}
+                        >
+                            <Download size={18} />
+                            Resume
+                        </a>
                     </motion.div>
 
                     <motion.div
@@ -234,36 +201,49 @@ export default function Hero() {
                     </motion.div>
                 </div>
 
-                {/* Right – 3D Canvas */}
+                {/* Right – Profile Picture */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.7 }}
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 1.2, delay: 0.3, ease: 'easeOut' }}
                     className="hidden lg:flex items-center justify-center"
                 >
-                    <div className="relative w-[420px] h-[420px]">
-                        {/* Glow ring behind canvas */}
-                        <div className="absolute inset-0 rounded-full blur-3xl opacity-25"
+                    <div className="relative w-[380px] h-[380px]">
+                        {/* Glow behind the image */}
+                        <div className="absolute inset-0 rounded-full blur-3xl opacity-30"
                             style={{ background: `radial-gradient(circle, ${theme.accent}, ${theme.accentBlue}, transparent)` }} />
-                        <Canvas
-                            camera={{ position: [0, 0, 6], fov: 45 }}
-                            gl={{ alpha: true, antialias: true }}
-                            style={{ background: 'transparent' }}
-                        >
-                            <HeroScene theme={theme} />
-                        </Canvas>
+                        {/* Rotating border ring */}
+                        <div
+                            className="absolute -inset-3 rounded-full animate-spin-slow"
+                            style={{
+                                background: `conic-gradient(from 0deg, ${theme.accent}, ${theme.accentBlue}, ${theme.accentPurple || theme.accent}, ${theme.accent})`,
+                                mask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 3px))',
+                                WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 3px), #fff calc(100% - 3px))',
+                                animationDuration: '8s',
+                            }}
+                        />
+                        {/* Profile image */}
+                        <div className="relative w-full h-full rounded-full overflow-hidden border-2"
+                            style={{ borderColor: `${theme.accent}30` }}>
+                            <img
+                                src={profileImg}
+                                alt="Uday Pandit"
+                                className="w-full h-full object-cover"
+                                style={{ objectPosition: 'center 25%' }}
+                            />
+                        </div>
                         {/* Floating labels */}
                         <div className="absolute top-4 right-0 px-3 py-1 rounded-full border text-xs font-mono animate-float"
                             style={{ borderColor: `${theme.accent}40`, background: `${theme.accent}15`, color: theme.accent }}>
-                            ⚡ Founder
+                            Founder
                         </div>
                         <div className="absolute bottom-12 left-0 px-3 py-1 rounded-full border text-xs font-mono animate-float"
                             style={{ animationDelay: '2s', borderColor: `${theme.accentBlue}40`, background: `${theme.accentBlue}15`, color: theme.accentBlue }}>
-                            🚀 Builder
+                            Builder
                         </div>
                         <div className="absolute top-1/2 right-2 px-3 py-1 rounded-full border text-xs font-mono animate-float"
                             style={{ animationDelay: '4s', borderColor: `${theme.accentPurple || theme.accent}40`, background: `${theme.accentPurple || theme.accent}15`, color: theme.accentPurple || theme.accent }}>
-                            💡 Innovator
+                            Innovator
                         </div>
                     </div>
                 </motion.div>
