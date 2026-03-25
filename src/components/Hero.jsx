@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Phone, Download } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import profileImg from '../assets/mine2.jpeg';
+import cvPdf from '../assets/Uday cv.pdf';
 
 const TITLES = [
     'Founder & Director',
@@ -153,8 +154,8 @@ export default function Hero() {
                             Let's Connect
                         </a>
                         <a
-                            href="/resume.pdf"
-                            download
+                            href={cvPdf}
+                            download="Uday Pandit CV.pdf"
                             className="group flex items-center gap-2 px-8 py-4 rounded-full font-bold border transition-all duration-300"
                             style={{
                                 borderColor: `${theme.accentBlue}40`,
